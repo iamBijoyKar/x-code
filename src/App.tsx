@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-import SideNav from "./components/SideNav/SideNav";
-import SideBar from "./components/SideBar/SideBar";
+import SideNav from "@/components/SideNav/SideNav";
+import SideBar from "@/components/SideBar/SideBar";
 
 function App() {
   const [navLocation, setNavLocation] = useState("files");
   const [sideBarOpen, setSideBarOpen] = useState(true);
+  const [editorOpen, setEditorOpen] = useState(false);
   const navLocations = ["files", "search", "git", "settings"];
 
   return (
@@ -20,6 +21,9 @@ function App() {
       </div>
       <div className="">
         <SideBar current={navLocation} sideBarOpen={sideBarOpen} />
+      </div>
+      <div className="w-full">
+        <h1 className="">Editor</h1>
       </div>
     </main>
   );

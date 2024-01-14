@@ -1,6 +1,7 @@
 import { BsThreeDots } from "react-icons/bs";
-import Files from "../Files/Files";
-import Search from "../Search/Search";
+import { open } from "@tauri-apps/api/dialog";
+import Files from "@/components/Files/Files";
+import Search from "@/components/Search/Search";
 
 type SideBarProps = {
   current: string;
@@ -30,6 +31,14 @@ export default function SideBar({ current, sideBarOpen }: SideBarProps) {
       default:
         return <Files />;
     }
+  };
+
+  const openDialog = async () => {
+    const result = await open({
+      multiple: true,
+      directory: true,
+    });
+    console.log(result);
   };
 
   return (

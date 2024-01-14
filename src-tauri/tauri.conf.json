@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": ".",
+    "productName": "X Code",
     "version": "0.0.0"
   },
   "tauri": {
@@ -15,6 +15,32 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true
+      },
+      "dialog": {
+        "all": true,
+        "ask": true,
+        "confirm": true,
+        "message": true,
+        "open": true,
+        "save": true
+      },
+      "notification": {
+        "all": true
+      },
+      "path": {
+        "all": false
       }
     },
     "bundle": {
@@ -36,7 +62,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "tauri-app",
+        "title": "X Code",
         "width": 800,
         "height": 600
       }
