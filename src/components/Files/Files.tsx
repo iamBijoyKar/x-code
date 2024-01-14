@@ -1,29 +1,21 @@
-import { useEffect } from "react";
+type FilesProps = {
+  files: any[];
+  workingDirectory: string;
+};
 
-import { readDir, BaseDirectory } from "@tauri-apps/api/fs";
-// Reads the `$APPDATA/users` directory recursively
-
-function processEntries(entries: any[]) {
-  for (const entry of entries) {
-    console.log(`Entry: ${entry.path}`);
-    if (entry.children) {
-      processEntries(entry.children);
-    }
-  }
-}
-
-export default function Files() {
-  useEffect(() => {
-    readDir("users", {
-      dir: BaseDirectory.AppData,
-      recursive: true,
-    })
-      .then((entries) => {
-        processEntries(entries);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-  return <div>Files</div>;
+export default function Files({ files, workingDirectory }: FilesProps) {
+  return (
+    <div className="w-full">
+      <h1>{workingDirectory}</h1>
+      <ul className="flex flex-col gap-1 overflow-y-auto">
+        {files.map((file) => {
+          return (
+            <li className="" key={file.path}>
+              {file.name}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }

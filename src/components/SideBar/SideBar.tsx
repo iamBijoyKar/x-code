@@ -6,9 +6,16 @@ import Search from "@/components/Search/Search";
 type SideBarProps = {
   current: string;
   sideBarOpen: boolean;
+  workingDirectory: string;
+  files: any[];
 };
 
-export default function SideBar({ current, sideBarOpen }: SideBarProps) {
+export default function SideBar({
+  current,
+  sideBarOpen,
+  files,
+  workingDirectory,
+}: SideBarProps) {
   const generateSideBarHeader = () => {
     switch (current) {
       case "files":
@@ -25,20 +32,12 @@ export default function SideBar({ current, sideBarOpen }: SideBarProps) {
   const generateSideBarContent = () => {
     switch (current) {
       case "files":
-        return <Files />;
+        return <Files files={files} workingDirectory={workingDirectory} />;
       case "search":
         return <Search />;
       default:
-        return <Files />;
+        return <Files files={files} workingDirectory={workingDirectory} />;
     }
-  };
-
-  const openDialog = async () => {
-    const result = await open({
-      multiple: true,
-      directory: true,
-    });
-    console.log(result);
   };
 
   return (
