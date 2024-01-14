@@ -4,3 +4,8 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function pathToFileName(path: string) {
+  if (path.includes("/")) return path.split("/").pop();
+  return path.replace(/^.*[\\/]/, "");
+}

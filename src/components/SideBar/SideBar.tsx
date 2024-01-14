@@ -8,6 +8,9 @@ type SideBarProps = {
   sideBarOpen: boolean;
   workingDirectory: string;
   files: any[];
+  currentFile: any;
+  setCurrentFile: (file: any) => void;
+  setEditorOpen: (isOpen: boolean) => void;
 };
 
 export default function SideBar({
@@ -15,8 +18,11 @@ export default function SideBar({
   sideBarOpen,
   files,
   workingDirectory,
+  currentFile,
+  setCurrentFile,
+  setEditorOpen,
 }: SideBarProps) {
-  const generateSideBarHeader = () => {
+  const generateSideBarHeader = (current: string) => {
     switch (current) {
       case "files":
         return "EXPLORER";
@@ -29,14 +35,32 @@ export default function SideBar({
     }
   };
 
-  const generateSideBarContent = () => {
+  const generateSideBarContent = (current: string) => {
     switch (current) {
       case "files":
-        return <Files files={files} workingDirectory={workingDirectory} />;
+        if (files.length === 0) return null;
+        return (
+          <Files
+            files={files}
+            workingDirectory={workingDirectory}
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+            setEditorOpen={setEditorOpen}
+          />
+        );
       case "search":
         return <Search />;
       default:
-        return <Files files={files} workingDirectory={workingDirectory} />;
+        if (files.length === 0) return null;
+        return (
+          <Files
+            files={files}
+            workingDirectory={workingDirectory}
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+            setEditorOpen={setEditorOpen}
+          />
+        );
     }
   };
 
@@ -47,13 +71,13 @@ export default function SideBar({
     >
       <header className="w-full flex items-center justify-between px-3">
         <p className=" text-[12px] text-sm text-secondaryText h-8 flex items-center justify-center truncate overflow-hidden">
-          {generateSideBarHeader()}
+          {generateSideBarHeader(current)}
         </p>
         <button type="button" className="hover:bg-primaryBg p-1 rounded ">
           <BsThreeDots className="text-secondaryText text-[14px] text-sm" />
         </button>
       </header>
-      <div className="w-full">{generateSideBarContent()}</div>
+      <div className="w-full">{generateSideBarContent(current)}</div>
     </aside>
   );
 }

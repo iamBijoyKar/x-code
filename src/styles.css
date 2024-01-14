@@ -10,3 +10,12 @@
     --secondaryText: #adb5bd;
   }
 }
+
+::-webkit-scrollbar {
+  width: 1rem;
+  background-color: var(--secondaryBg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondaryText);
+}

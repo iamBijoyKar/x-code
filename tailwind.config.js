@@ -10,6 +10,9 @@ export default {
         secondaryText: "var(--secondaryText)",
       },
     },
+    fontFamily: {
+      code: ["Fira Code", "monospace"],
+    },
   },
   plugins: [],
 };

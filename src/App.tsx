@@ -3,6 +3,7 @@ import { invoke } from "@tauri-apps/api/tauri";
 import HeaderBar from "./components/HeaderBar/HeaderBar";
 import SideNav from "@/components/SideNav/SideNav";
 import SideBar from "@/components/SideBar/SideBar";
+import Editor from "./components/Editor/Editor";
 import { XCodeFile, XCodeFiles } from "./types";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [workingDirectory, setWorkingDirectory] = useState("");
+  const [currentFile, setCurrentFile] = useState(null);
   const navLocations = ["files", "search", "git", "settings"];
 
   return (
@@ -38,10 +40,20 @@ function App() {
             sideBarOpen={sideBarOpen}
             files={files}
             workingDirectory={workingDirectory}
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+            setEditorOpen={setEditorOpen}
           />
         </div>
         <div className="w-full">
-          <h1 className="">Editor</h1>
+          <Editor
+            currentFile={currentFile}
+            setCurrentFile={setCurrentFile}
+            isEditorOpen={editorOpen}
+            setIsEditorOpen={setEditorOpen}
+            files={files}
+            workingDirectory={workingDirectory}
+          />
         </div>
       </div>
     </main>
