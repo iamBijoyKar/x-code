@@ -1,8 +1,9 @@
 import { open } from "@tauri-apps/api/dialog";
 import { readDir } from "@tauri-apps/api/fs";
+import { XCodeFiles } from "@/types";
 
 type OpenFolderProps = {
-  setFiles: (files: any[]) => void;
+  setFiles: (files: XCodeFiles) => void;
   setWorkingDirectory: (directory: string) => void;
 };
 

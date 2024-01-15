@@ -3,14 +3,15 @@ import { BsThreeDots } from "react-icons/bs";
 import { open } from "@tauri-apps/api/dialog";
 import Files from "@/components/Files/Files";
 import Search from "@/components/Search/Search";
+import { XCodeFiles, XCodeFile } from "@/types";
 
 type SideBarProps = {
   current: string;
   sideBarOpen: boolean;
   workingDirectory: string;
-  files: any[];
-  currentFile: any;
-  setCurrentFile: (file: any) => void;
+  files: XCodeFiles;
+  currentFile: XCodeFile;
+  setCurrentFile: (file: XCodeFile) => void;
   setEditorOpen: (isOpen: boolean) => void;
   setSideBarOpen: (isOpen: boolean) => void;
 };

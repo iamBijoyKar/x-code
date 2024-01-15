@@ -4,8 +4,8 @@ import type { XCodeFiles, XCodeFile } from "@/types";
 type HeaderBarProps = {
   workingDirectory: string;
   setWorkingDirectory: (directory: string) => void;
-  files: any[];
-  setFiles: (files: any) => void;
+  files: XCodeFiles;
+  setFiles: (files: XCodeFiles) => void;
 };
 
 export default function HeaderBar({

@@ -17,12 +17,12 @@ export default function FileLabel({
   return (
     <div
       onClick={onClick}
-      className="flex items-center text-secondaryText hover:text-primaryText cursor-pointer"
+      className="flex items-center text-secondaryText hover:text-primaryText cursor-pointer truncate w-full gap-2"
     >
       {type === "file" ? (
-        <FaRegFileAlt className="mr-2" />
+        <FaRegFileAlt className=" text-md" />
       ) : (
-        <FaRegFolder className="mr-2" />
+        <FaRegFolder className=" text-md" />
       )}
       <p className="">{label}</p>
     </div>

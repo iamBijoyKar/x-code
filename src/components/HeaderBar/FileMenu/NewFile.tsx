@@ -1,7 +1,8 @@
 import { open } from "@tauri-apps/api/dialog";
+import { XCodeFiles } from "@/types";
 
 type NewFileProps = {
-  setFiles: (files: any[]) => void;
+  setFiles: (files: XCodeFiles) => void;
   setWorkingDirectory: (directory: string) => void;
 };
 
@@ -17,7 +18,7 @@ export default function NewFile({
     console.log(result);
     if (typeof result === "string") {
       setWorkingDirectory(result);
-      setFiles([result]);
+      setFiles([{ path: result, name: result }]);
     }
   };
 

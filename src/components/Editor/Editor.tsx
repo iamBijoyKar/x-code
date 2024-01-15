@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+import { XCodeFile, XCodeFiles } from "@/types";
 import EditorHero from "./EditorHero";
 
 type EditorProps = {
-  currentFile: any;
-  setCurrentFile: (file: any) => void;
-  files: any[];
+  currentFile: XCodeFile;
+  setCurrentFile: (file: XCodeFile) => void;
+  files: XCodeFiles;
   workingDirectory: string;
   isEditorOpen: boolean;
   setIsEditorOpen: (isOpen: boolean) => void;

@@ -8,9 +8,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "../../UI/DropDown";
+import { XCodeFile, XCodeFiles } from "@/types";
 
 type FileDropDownMenuProps = {
-  setFiles: (files: any[]) => void;
+  setFiles: (files: XCodeFiles) => void;
   setWorkingDirectory: (directory: string) => void;
 };
 

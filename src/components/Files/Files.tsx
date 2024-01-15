@@ -2,12 +2,13 @@ import { useState } from "react";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 import FileLabel from "./FileLabel";
 import { pathToFileName } from "@/lib/utils";
+import type { XCodeFiles, XCodeFile } from "@/types";
 
 type FilesProps = {
-  files: any[];
+  files: XCodeFiles;
   workingDirectory: string;
-  currentFile: any;
-  setCurrentFile: (file: any) => void;
+  currentFile: XCodeFile;
+  setCurrentFile: (file: XCodeFile) => void;
   setEditorOpen: (isOpen: boolean) => void;
 };
 
@@ -51,7 +52,7 @@ export default function Files({
             return (
               <li className="" key={file.path}>
                 <FileLabel
-                  label={file.name}
+                  label={file.name ? file.name : file.path}
                   path={file.path}
                   type={file.children ? "folder" : "file"}
                   onClick={() => handleFileClick(file)}
