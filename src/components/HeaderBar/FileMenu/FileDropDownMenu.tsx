@@ -39,7 +39,7 @@ export default function FileDropDownMenu({
           </CustomMenuItem>
           <CustomMenuItem>
             <button className="flex gap-4 items-center justify-between w-full">
-              <span>New Folder</span>
+              <span>New Project</span>
               <span className="ml-auto text-xs tracking-widest opacity-60">
                 Ctrl+Shift+N
               </span>
@@ -64,14 +64,6 @@ export default function FileDropDownMenu({
               setFiles={setFiles}
               setWorkingDirectory={setWorkingDirectory}
             />
-          </CustomMenuItem>
-          <CustomMenuItem>
-            <button className="flex gap-4 items-center justify-between w-full">
-              <span>Open Window</span>
-              <span className="ml-auto text-xs tracking-widest opacity-60">
-                Ctrl+Shift+N
-              </span>
-            </button>
           </CustomMenuItem>
           <CustomMenuItem>
             <button className="flex gap-4 items-center justify-between w-full">

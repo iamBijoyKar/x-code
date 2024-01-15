@@ -32,7 +32,7 @@ export default function OpenFolder({
       onClick={openFolder}
       className="flex gap-4 items-center justify-between w-full"
     >
-      <span>Open Folder</span>
+      <span>Open Project</span>
       <span className="ml-auto text-xs tracking-widest opacity-60">
         Ctrl+Shift+O
       </span>
