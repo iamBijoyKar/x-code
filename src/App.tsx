@@ -26,7 +26,7 @@ function App() {
         />
       </div>
       <div className="flex w-full h-full">
-        <div className="w-[50px] p-0 h-full flex">
+        <div className="w-[50px] min-w-[50px] p-0 h-full flex">
           <SideNav
             current={navLocation}
             sideBarOpen={sideBarOpen}
@@ -43,6 +43,7 @@ function App() {
             currentFile={currentFile}
             setCurrentFile={setCurrentFile}
             setEditorOpen={setEditorOpen}
+            setSideBarOpen={setSideBarOpen}
           />
         </div>
         <div className="w-full">

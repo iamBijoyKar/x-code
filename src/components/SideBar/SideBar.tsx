@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { open } from "@tauri-apps/api/dialog";
 import Files from "@/components/Files/Files";
@@ -11,6 +12,7 @@ type SideBarProps = {
   currentFile: any;
   setCurrentFile: (file: any) => void;
   setEditorOpen: (isOpen: boolean) => void;
+  setSideBarOpen: (isOpen: boolean) => void;
 };
 
 export default function SideBar({
@@ -21,6 +23,7 @@ export default function SideBar({
   currentFile,
   setCurrentFile,
   setEditorOpen,
+  setSideBarOpen,
 }: SideBarProps) {
   const generateSideBarHeader = (current: string) => {
     switch (current) {
@@ -64,20 +67,72 @@ export default function SideBar({
     }
   };
 
+  const [sidebarWidth, setSidebarWidth] = useState(200);
+  const [drag, setDrag] = useState({
+    active: false,
+    x: 0,
+    y: 0,
+  });
+
+  const startResize = (e: any) => {
+    setDrag({
+      active: true,
+      x: e.clientX,
+      y: e.clientY,
+    });
+  };
+
+  const resizeFrame = (e: any) => {
+    const { active, x, y } = drag;
+    if (!active) return;
+    const xDiff = Math.abs(x - e.clientX);
+    const yDiff = Math.abs(y - e.clientY);
+    const newWidth =
+      x < e.clientX ? sidebarWidth + xDiff : sidebarWidth - xDiff;
+    setDrag({ ...drag, x: e.clientX, y: e.clientY });
+    setSidebarWidth(newWidth);
+  };
+
+  const stopResize = () => {
+    setDrag({ ...drag, active: false });
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", resizeFrame);
+    window.addEventListener("mouseup", stopResize);
+    return () => {
+      window.removeEventListener("mousemove", resizeFrame);
+      window.removeEventListener("mouseup", stopResize);
+    };
+  });
+
+  useEffect(() => {
+    if (sidebarWidth < 160) {
+      setSideBarOpen(false);
+      setSidebarWidth(250);
+    }
+  }, [sidebarWidth]);
+
   return (
     <aside
-      className="bg-secondaryBg text-primaryText overflow-hidden w-[200px] min-w-[140px] max-w-[500px] resize-x h-full"
-      style={{ display: sideBarOpen ? "block" : "none" }}
+      className="bg-secondaryBg text-primaryText overflow-hidden w-[250px] min-w-[160px] max-w-[500px]  h-full relative"
+      style={{ display: sideBarOpen ? "block" : "none", width: sidebarWidth }}
     >
-      <header className="w-full flex items-center justify-between px-3">
-        <p className=" text-[12px] text-sm text-secondaryText h-8 flex items-center justify-center truncate overflow-hidden">
-          {generateSideBarHeader(current)}
-        </p>
-        <button type="button" className="hover:bg-primaryBg p-1 rounded ">
-          <BsThreeDots className="text-secondaryText text-[14px] text-sm" />
-        </button>
-      </header>
-      <div className="w-full">{generateSideBarContent(current)}</div>
+      <div className="w-full h-full">
+        <header className="w-full flex items-center justify-between px-3">
+          <p className=" text-[12px] text-sm text-secondaryText h-8 flex items-center justify-center truncate overflow-hidden">
+            {generateSideBarHeader(current)}
+          </p>
+          <button type="button" className="hover:bg-primaryBg p-1 rounded ">
+            <BsThreeDots className="text-secondaryText text-[14px] text-sm" />
+          </button>
+        </header>
+        <div className="w-full">{generateSideBarContent(current)}</div>
+      </div>
+      <div
+        className="min-w-1 w-1 h-full bg-primaryBg hover:bg-slate-700 cursor-col-resize absolute top-0 right-0 z-10 "
+        onMouseDown={startResize}
+      ></div>
     </aside>
   );
 }
