@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+import EditorHero from "./EditorHero";
 
 type EditorProps = {
   currentFile: any;
@@ -20,20 +21,6 @@ export default function Editor({
 }: EditorProps) {
   const [fileContent, setFileContent] = useState<string>("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  if (
-    currentFile !== null &&
-    currentFile.path !== undefined &&
-    currentFile.path !== null &&
-    currentFile.path !== "" &&
-    currentFile.path !== fileContent &&
-    currentFile.children === undefined
-  ) {
-    readTextFile(currentFile.path)
-      .then((content) => {
-        setFileContent(content);
-      })
-      .catch((err) => console.error(err));
-  }
 
   const saveFile = () => {
     writeTextFile(currentFile.path, fileContent)
@@ -42,6 +29,23 @@ export default function Editor({
       })
       .catch((err) => console.error(err));
   };
+
+  useEffect(() => {
+    if (
+      currentFile !== null &&
+      currentFile.path !== undefined &&
+      currentFile.path !== null &&
+      currentFile.path !== "" &&
+      currentFile.path !== fileContent &&
+      currentFile.children === undefined
+    ) {
+      readTextFile(currentFile.path)
+        .then((content) => {
+          setFileContent(content);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [currentFile]);
 
   return (
     <div className="flex w-full h-full bg-primaryBg text-secondaryText ">
@@ -52,7 +56,7 @@ export default function Editor({
           </div>
           <textarea
             ref={textAreaRef}
-            className="w-full h-full resize bg-primaryBg text-secondaryText p-4 font-code outline-none"
+            className="w-full h-full bg-primaryBg text-secondaryText p-4 font-code outline-none resize-none"
             value={fileContent}
             onChange={(e) => setFileContent(e.target.value)}
             autoCorrect="off"
@@ -62,7 +66,9 @@ export default function Editor({
           />
         </div>
       ) : (
-        <div className="">Closed</div>
+        <div className="flex flex-col w-full h-full">
+          <EditorHero />
+        </div>
       )}
     </div>
   );
