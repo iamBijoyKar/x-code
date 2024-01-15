@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 import FileLabel from "./FileLabel";
+import FolderLabel from "./FolderLabel";
 import { pathToFileName } from "@/lib/utils";
 import type { XCodeFiles, XCodeFile } from "@/types";
 
@@ -49,16 +50,35 @@ export default function Files({
       {open ? (
         <ul className="flex flex-col overflow-y-auto px-2">
           {files.map((file) => {
-            return (
-              <li className="" key={file.path}>
+            if (file.children !== undefined) {
+              return (
+                <FolderLabel
+                  key={file.path}
+                  label={
+                    file.name === undefined
+                      ? pathToFileName(file.path)
+                      : file.name
+                  }
+                  file={file}
+                  type="folder"
+                  onFileClick={handleFileClick}
+                />
+              );
+            } else {
+              return (
                 <FileLabel
-                  label={file.name ? file.name : file.path}
+                  key={file.path}
+                  label={
+                    file.name === undefined
+                      ? pathToFileName(file.path)
+                      : file.name
+                  }
                   path={file.path}
-                  type={file.children ? "folder" : "file"}
+                  type="file"
                   onClick={() => handleFileClick(file)}
                 />
-              </li>
-            );
+              );
+            }
           })}
         </ul>
       ) : null}
