@@ -8,6 +8,7 @@ export default {
         secondaryBg: "var(--secondaryBg)",
         primaryText: "var(--primaryText)",
         secondaryText: "var(--secondaryText)",
+        hoverBg: "var(--hoverBg)",
       },
     },
     fontFamily: {
