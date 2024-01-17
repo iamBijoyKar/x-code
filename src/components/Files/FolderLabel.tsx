@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FaRegFolder } from "react-icons/fa";
+import { FaRegFolder } from "react-icons/fa6";
+import { FaRegFolderOpen } from "react-icons/fa6";
 import { XCodeFile } from "@/types";
 import FileLabel from "./FileLabel";
 
@@ -29,8 +30,12 @@ export default function FolderLabel({
         onClick={handleFolderOnClick}
         className="flex gap-2 items-center truncate w-full"
       >
-        <FaRegFolder className=" text-md" />
-        <p className="">{label}</p>
+        {open ? (
+          <FaRegFolderOpen className="text-lg" />
+        ) : (
+          <FaRegFolder className=" text-md" />
+        )}
+        <p className="truncate">{label}</p>
       </div>
       {open ? (
         <div className="">

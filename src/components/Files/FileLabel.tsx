@@ -16,10 +16,10 @@ export default function FileLabel({
   return (
     <div
       onClick={onClick}
-      className="flex items-center text-secondaryText hover:text-primaryText cursor-pointer truncate w-full gap-2"
+      className="flex items-center text-secondaryText hover:text-primaryText cursor-pointer w-full gap-2"
     >
       <FaRegFileAlt className=" text-md" />
-      <p className="">{label}</p>
+      <p className="truncate">{label}</p>
     </div>
   );
 }
