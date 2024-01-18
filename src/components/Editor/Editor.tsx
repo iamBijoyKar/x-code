@@ -30,10 +30,27 @@ export default function Editor({
     if (document.activeElement !== textAreaRef.current) return;
     writeTextFile(currentFile.path, fileContent)
       .then(() => {
-        console.log("File saved");
+        console.log("File saved", fileContent);
       })
       .catch((err) => console.error(err));
   };
+
+  useEffect(() => {
+    if (isEditorOpen) {
+      document.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key === "s" && e.ctrlKey) {
+          saveFile();
+        }
+      });
+      return () => {
+        document.removeEventListener("keydown", (e: KeyboardEvent) => {
+          if (e.key === "s" && e.ctrlKey) {
+            saveFile();
+          }
+        });
+      };
+    }
+  }, [isEditorOpen]);
 
   const generateEditorContent = () => {
     if (currentFileType === "text") {
