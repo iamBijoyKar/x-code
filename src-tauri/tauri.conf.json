@@ -42,6 +42,16 @@
       },
       "path": {
         "all": false
+      },
+      "clipboard": {
+        "all": false,
+        "readText": false,
+        "writeText": false
+      },
+      "protocol": {
+        "all": false,
+        "asset": true,
+        "assetScope": ["**/*"]
       }
     },
     "bundle": {
