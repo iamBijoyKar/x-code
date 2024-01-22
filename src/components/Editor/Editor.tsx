@@ -3,6 +3,7 @@ import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
 import { XCodeFile, XCodeFiles } from "@/types";
 import EditorHero from "./EditorHero";
 import ImageLoader from "./ImageLoader";
+import EditorFileTabLabel from "./EditorFileTabLabel";
 import { pathToFileType, isTextFile, isImageFile } from "@/lib/utils";
 
 type EditorProps = {
@@ -12,6 +13,8 @@ type EditorProps = {
   workingDirectory: string;
   isEditorOpen: boolean;
   setIsEditorOpen: (isOpen: boolean) => void;
+  filesOpenInEditor: XCodeFile[];
+  setFilesOpenInEditor: (files: XCodeFile[]) => void;
 };
 
 export default function Editor({
@@ -21,6 +24,8 @@ export default function Editor({
   workingDirectory,
   isEditorOpen,
   setIsEditorOpen,
+  filesOpenInEditor,
+  setFilesOpenInEditor,
 }: EditorProps) {
   const [fileContent, setFileContent] = useState<string>("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -111,7 +116,27 @@ export default function Editor({
     <div className="flex w-full h-full bg-primaryBg text-secondaryText ">
       {isEditorOpen ? (
         <div className="flex flex-col w-full h-full">
-          <div className="px-4 py-1 font-medium bg-secondaryBg">
+          <div className="bg-secondaryBg ">
+            <ul className="flex items-center gap-[1px] overflow-x-auto ">
+              {filesOpenInEditor.map((file) => (
+                <li key={file.path}>
+                  <EditorFileTabLabel
+                    file={file}
+                    onClick={() => setCurrentFile(file)}
+                    onClose={() => {
+                      setFilesOpenInEditor(
+                        filesOpenInEditor.filter((f) => f.path !== file.path)
+                      );
+                      if (currentFile.path === file.path) {
+                        setCurrentFile(filesOpenInEditor[0]);
+                      }
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="px-4 py-1 text-sm font-medium bg-primaryBg">
             {currentFile.path}
           </div>
           <div className="w-full h-full">{generateEditorContent()}</div>

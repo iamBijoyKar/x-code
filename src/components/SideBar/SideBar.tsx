@@ -14,6 +14,8 @@ type SideBarProps = {
   setCurrentFile: (file: XCodeFile) => void;
   setEditorOpen: (isOpen: boolean) => void;
   setSideBarOpen: (isOpen: boolean) => void;
+  filesOpenInEditor: XCodeFile[];
+  setFilesOpenInEditor: (files: XCodeFile[]) => void;
 };
 
 export default function SideBar({
@@ -25,6 +27,8 @@ export default function SideBar({
   setCurrentFile,
   setEditorOpen,
   setSideBarOpen,
+  filesOpenInEditor,
+  setFilesOpenInEditor,
 }: SideBarProps) {
   const generateSideBarHeader = (current: string) => {
     switch (current) {
@@ -50,6 +54,8 @@ export default function SideBar({
             currentFile={currentFile}
             setCurrentFile={setCurrentFile}
             setEditorOpen={setEditorOpen}
+            filesOpenInEditor={filesOpenInEditor}
+            setFilesOpenInEditor={setFilesOpenInEditor}
           />
         );
       case "search":
@@ -63,6 +69,8 @@ export default function SideBar({
             currentFile={currentFile}
             setCurrentFile={setCurrentFile}
             setEditorOpen={setEditorOpen}
+            filesOpenInEditor={filesOpenInEditor}
+            setFilesOpenInEditor={setFilesOpenInEditor}
           />
         );
     }

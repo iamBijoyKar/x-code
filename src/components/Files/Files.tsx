@@ -11,6 +11,8 @@ type FilesProps = {
   currentFile: XCodeFile;
   setCurrentFile: (file: XCodeFile) => void;
   setEditorOpen: (isOpen: boolean) => void;
+  filesOpenInEditor: XCodeFile[];
+  setFilesOpenInEditor: (files: XCodeFile[]) => void;
 };
 
 export default function Files({
@@ -19,12 +21,16 @@ export default function Files({
   currentFile,
   setCurrentFile,
   setEditorOpen,
+  filesOpenInEditor,
+  setFilesOpenInEditor,
 }: FilesProps) {
   const [open, setOpen] = useState<boolean>(true);
 
   const handleFileClick = (file: any) => {
     setCurrentFile(file);
     setEditorOpen(true);
+    if (filesOpenInEditor.includes(file)) return;
+    setFilesOpenInEditor([...filesOpenInEditor, file]);
   };
 
   return (

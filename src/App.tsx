@@ -13,6 +13,7 @@ function App() {
   const [files, setFiles] = useState<XCodeFiles>([]);
   const [workingDirectory, setWorkingDirectory] = useState("");
   const [currentFile, setCurrentFile] = useState<XCodeFile>();
+  const [filesOpenInEditor, setFilesOpenInEditor] = useState<XCodeFile[]>([]);
   const navLocations = ["files", "search", "git", "settings"];
 
   return (
@@ -44,6 +45,8 @@ function App() {
             setCurrentFile={setCurrentFile}
             setEditorOpen={setEditorOpen}
             setSideBarOpen={setSideBarOpen}
+            filesOpenInEditor={filesOpenInEditor}
+            setFilesOpenInEditor={setFilesOpenInEditor}
           />
         </div>
         <div className="w-full">
@@ -54,6 +57,8 @@ function App() {
             setIsEditorOpen={setEditorOpen}
             files={files}
             workingDirectory={workingDirectory}
+            filesOpenInEditor={filesOpenInEditor}
+            setFilesOpenInEditor={setFilesOpenInEditor}
           />
         </div>
       </div>
