@@ -62,7 +62,7 @@ export default function Editor({
       return (
         <textarea
           ref={textAreaRef}
-          className="w-full h-full bg-primaryBg text-secondaryText p-4 font-code outline-none resize-none"
+          className="w-full h-full bg-primaryBg text-secondaryText px-4 font-code outline-none resize-none"
           value={fileContent}
           onChange={(e) => setFileContent(e.target.value)}
           autoCorrect="off"
