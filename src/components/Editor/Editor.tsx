@@ -31,28 +31,28 @@ export default function Editor({
   setFilesOpenInEditor,
 }: EditorProps) {
   const [fileContent, setFileContent] = useState<string>("");
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef(null);
   const [currentFileType, setCurrentFileType] = useState<string>("");
 
   const saveFile = () => {
     if (document.activeElement !== textAreaRef.current) return;
-    writeTextFile(currentFile.path, fileContent)
-      .then(() => {
-        console.log("File saved", fileContent);
-      })
-      .catch((err) => console.error(err));
+    setFileContent((prev) => {
+      writeTextFile(currentFile.path, prev);
+      console.log("File saved", currentFile.path, prev);
+      return prev;
+    });
   };
 
   useEffect(() => {
     if (isEditorOpen) {
       document.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key === "s" && e.ctrlKey) {
+        if (e.ctrlKey && e.key === "s") {
           saveFile();
         }
       });
       return () => {
         document.removeEventListener("keydown", (e: KeyboardEvent) => {
-          if (e.key === "s" && e.ctrlKey) {
+          if (e.ctrlKey && e.key === "s") {
             saveFile();
           }
         });
@@ -65,8 +65,10 @@ export default function Editor({
       return (
         <CodeMirror
           value={fileContent}
-          onChange={(data, value) => {
-            setFileContent(data);
+          ref={textAreaRef}
+          onChange={(value, viewUpdate) => {
+            setFileContent(value);
+            // console.log("File content updated", value);
           }}
           theme={atomone}
           extensions={[javascript({ jsx: true })]}
