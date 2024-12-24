@@ -70,6 +70,7 @@ export default function Editor({
             setFileContent(value);
             // console.log("File content updated", value);
           }}
+          height="600px"
           theme={atomone}
           extensions={[javascript({ jsx: true })]}
         />
