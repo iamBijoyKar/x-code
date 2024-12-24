@@ -5,6 +5,9 @@ import EditorHero from "./EditorHero";
 import ImageLoader from "./ImageLoader";
 import EditorFileTabLabel from "./EditorFileTabLabel";
 import { pathToFileType, isTextFile, isImageFile } from "@/lib/utils";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { atomone } from "@uiw/codemirror-theme-atomone";
 
 type EditorProps = {
   currentFile: XCodeFile;
@@ -60,15 +63,13 @@ export default function Editor({
   const generateEditorContent = () => {
     if (currentFileType === "text") {
       return (
-        <textarea
-          ref={textAreaRef}
-          className="w-full h-full bg-primaryBg text-secondaryText px-4 font-code outline-none resize-none"
+        <CodeMirror
           value={fileContent}
-          onChange={(e) => setFileContent(e.target.value)}
-          autoCorrect="off"
-          autoCapitalize="off"
-          autoComplete="off"
-          spellCheck="false"
+          onChange={(data, value) => {
+            setFileContent(data);
+          }}
+          theme={atomone}
+          extensions={[javascript({ jsx: true })]}
         />
       );
     } else if (currentFileType === "image") {
