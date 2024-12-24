@@ -13,8 +13,8 @@ export default function EditorFileTabLabel({
   onClose,
 }: EditorFileTabLabelProps) {
   return (
-    <div className="px-2 py-1 flex justify-between min-w-[100px] max-w-[100px] bg-[#161a1d] hover:bg-primaryBg cursor-pointer group">
-      <span onClick={onClick} className="w-full truncate">
+    <div className="px-2 py-1 flex justify-between min-w-[100px] w-[120px] max-w-[150px] bg-[#161a1d] hover:bg-primaryBg cursor-pointer group">
+      <span onClick={onClick} className="w-full text-md truncate">
         {file.name}
       </span>
       <button
