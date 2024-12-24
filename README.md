@@ -1,4 +1,5 @@
 <div align="center">
+    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/f846bbbe-3483-48ce-8c87-c87fc3c7da10" width="250" alt="x code logo" />
     <h1>X Code</h1>
     <p>
         A code ediror for desktop written in Tauri + TS + React. It is a simple code editor inspired by Visual Studio Code.
@@ -43,9 +44,10 @@ npm run tauri dev
 ## Screenshots
 
 <div align="center">
-    <img src="screenshots/1.png" alt="Screenshot 1" />
-    <img src="screenshots/2.png" alt="Screenshot 2" />
-    <img src="screenshots/3.png" alt="Screenshot 3" />
+    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/cc81c422-4a79-4aa9-9760-b5eaf2934e60" width="" alt="Screenshot 1" />
+    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/fd81b3c8-937c-473a-96e4-b26fdf0d7ab4" width="" alt="Screenshot 1" />
+    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/93ee4b92-29ba-46cd-acaa-33f5e34791a1" width="" alt="Screenshot 1" />
+
 </div>
 
 ## Support the project
