@@ -131,7 +131,12 @@ export default function Editor({
                         filesOpenInEditor.filter((f) => f.path !== file.path)
                       );
                       if (currentFile.path === file.path) {
-                        setCurrentFile(filesOpenInEditor[0]);
+                        if (filesOpenInEditor.length > 1) {
+                          setCurrentFile(filesOpenInEditor[0]);
+                        } else {
+                          setIsEditorOpen(false);
+                          setFilesOpenInEditor([]);
+                        }
                       }
                     }}
                   />
