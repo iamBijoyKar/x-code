@@ -57,7 +57,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.iamBijoyKar.XCode",
       "icon": [
         "icons/X-Code-32x32.png",
         "icons/X-Code-128x128.png",
