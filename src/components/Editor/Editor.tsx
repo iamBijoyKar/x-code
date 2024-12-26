@@ -6,8 +6,8 @@ import ImageLoader from "./ImageLoader";
 import EditorFileTabLabel from "./EditorFileTabLabel";
 import { pathToFileType, isTextFile, isImageFile } from "@/lib/utils";
 import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
 import { atomone } from "@uiw/codemirror-theme-atomone";
+import { langs } from "@uiw/codemirror-extensions-langs";
 
 type EditorProps = {
   currentFile: XCodeFile;
@@ -33,6 +33,9 @@ export default function Editor({
   const [fileContent, setFileContent] = useState<string>("");
   const textAreaRef = useRef(null);
   const [currentFileType, setCurrentFileType] = useState<string>("");
+  const [currentFileExtension, setCurrentFileExtension] = useState<string>(
+    currentFile.path.split(".").pop()
+  );
 
   const saveFile = () => {
     // if (document.activeElement !== textAreaRef.current) return;
@@ -60,8 +63,40 @@ export default function Editor({
     }
   }, [isEditorOpen]);
 
+  const editorLangExtensionSetter = (fileExtension: string) => {
+    switch (fileExtension) {
+      case "js":
+        return [langs.javascript()];
+      case "ts":
+        return [langs.typescript()];
+      case "jsx":
+        return [langs.jsx()];
+      case "tsx":
+        return [langs.tsx()];
+      case "html":
+        return [langs.html()];
+      case "css":
+        return [langs.css()];
+      case "json":
+        return [langs.json()];
+      case "md":
+        return [langs.markdown()];
+      case "py":
+        return [langs.python()];
+      case "java":
+        return [langs.java()];
+      case "c":
+        return [langs.c()];
+      case "cpp":
+        return [langs.cpp()];
+      default:
+        return [];
+    }
+  };
+
   const generateEditorContent = () => {
     if (currentFileType === "text") {
+      const langExtension = editorLangExtensionSetter(currentFileExtension);
       return (
         <CodeMirror
           value={fileContent}
@@ -72,7 +107,7 @@ export default function Editor({
           }}
           height="600px"
           theme={atomone}
-          extensions={[javascript({ jsx: true })]}
+          extensions={langExtension}
         />
       );
     } else if (currentFileType === "image") {
@@ -103,6 +138,7 @@ export default function Editor({
         .then((content) => {
           setFileContent(content);
           setCurrentFileType("text");
+          setCurrentFileExtension(currentFile.path.split(".").pop());
         })
         .catch((err) => {
           console.error(err);
