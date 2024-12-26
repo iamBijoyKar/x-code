@@ -35,7 +35,7 @@ export default function Editor({
   const [currentFileType, setCurrentFileType] = useState<string>("");
 
   const saveFile = () => {
-    if (document.activeElement !== textAreaRef.current) return;
+    // if (document.activeElement !== textAreaRef.current) return;
     setFileContent((prev) => {
       writeTextFile(currentFile.path, prev);
       console.log("File saved", currentFile.path, prev);
