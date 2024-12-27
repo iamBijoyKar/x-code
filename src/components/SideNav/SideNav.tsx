@@ -1,7 +1,6 @@
 import NavItem from "./NavItem";
 import { ImFilesEmpty } from "react-icons/im";
-import { GoGitMerge } from "react-icons/go";
-import { VscSearch } from "react-icons/vsc";
+import { IoGitNetworkOutline } from "react-icons/io5";
 
 type SideNavProps = {
   current: string;
@@ -32,20 +31,9 @@ export default function SideNav({
         </li>
         <li className="w-full">
           <NavItem
-            label="Search"
-            href="search"
-            Icon={VscSearch}
-            current={current}
-            setCurrent={setCurrent}
-            setSideBarOpen={setSideBarOpen}
-            sideBarOpen={sideBarOpen}
-          />
-        </li>
-        <li className="w-full">
-          <NavItem
             label="Git"
             href="git"
-            Icon={GoGitMerge}
+            Icon={IoGitNetworkOutline}
             current={current}
             setCurrent={setCurrent}
             setSideBarOpen={setSideBarOpen}
