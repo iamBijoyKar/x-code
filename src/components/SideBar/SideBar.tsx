@@ -16,6 +16,10 @@ type SideBarProps = {
   setSideBarOpen: (isOpen: boolean) => void;
   filesOpenInEditor: XCodeFile[];
   setFilesOpenInEditor: (files: XCodeFile[]) => void;
+  setEditorDimension: (editorDimension: {
+    width: string;
+    height: string;
+  }) => void;
 };
 
 export default function SideBar({
@@ -29,6 +33,7 @@ export default function SideBar({
   setSideBarOpen,
   filesOpenInEditor,
   setFilesOpenInEditor,
+  setEditorDimension,
 }: SideBarProps) {
   const generateSideBarHeader = (current: string) => {
     switch (current) {
@@ -120,7 +125,30 @@ export default function SideBar({
       setSideBarOpen(false);
       setSidebarWidth(250);
     }
-  }, [sidebarWidth]);
+    if (sideBarOpen) {
+      setEditorDimension({
+        width: `${window.innerWidth - (sidebarWidth + 10)}px`,
+        height: `${window.innerHeight - 100}px`,
+      });
+    } else {
+      setEditorDimension({
+        width: `${window.innerWidth - 10}px`,
+        height: `${window.innerHeight - 100}px`,
+      });
+    }
+  }, [sidebarWidth, sideBarOpen]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setEditorDimension({
+        width: `${window.innerWidth - sidebarWidth - 10}px`,
+        height: `${window.innerHeight - 100}px`,
+      });
+    });
+    return () => {
+      window.removeEventListener("resize", () => {});
+    };
+  }, []);
 
   return (
     <aside

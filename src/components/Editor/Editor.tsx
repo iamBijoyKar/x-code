@@ -18,6 +18,14 @@ type EditorProps = {
   setIsEditorOpen: (isOpen: boolean) => void;
   filesOpenInEditor: XCodeFile[];
   setFilesOpenInEditor: (files: XCodeFile[]) => void;
+  editorDimension: {
+    width: string;
+    height: string;
+  };
+  setEditorDimension: (editorDimension: {
+    width: string;
+    height: string;
+  }) => void;
 };
 
 export default function Editor({
@@ -29,6 +37,8 @@ export default function Editor({
   setIsEditorOpen,
   filesOpenInEditor,
   setFilesOpenInEditor,
+  editorDimension,
+  setEditorDimension,
 }: EditorProps) {
   const textAreaRef = useRef(null);
   const [currentFileContent, setCurrentFileContent] = useState<string>("");
@@ -111,7 +121,8 @@ export default function Editor({
             setIsCurrentFileChanged(true);
             // console.log("File content updated", value);
           }}
-          height="600px"
+          height={editorDimension.height}
+          width={editorDimension.width}
           theme={atomone}
           extensions={langExtension}
         />

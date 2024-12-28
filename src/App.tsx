@@ -14,6 +14,10 @@ function App() {
   const [workingDirectory, setWorkingDirectory] = useState("");
   const [currentFile, setCurrentFile] = useState<XCodeFile>();
   const [filesOpenInEditor, setFilesOpenInEditor] = useState<XCodeFile[]>([]);
+  const [editorDimension, setEditorDimension] = useState({
+    width: "1110px",
+    height: "600px",
+  });
   const navLocations = ["files", "search", "git", "settings"];
 
   return (
@@ -47,6 +51,7 @@ function App() {
             setSideBarOpen={setSideBarOpen}
             filesOpenInEditor={filesOpenInEditor}
             setFilesOpenInEditor={setFilesOpenInEditor}
+            setEditorDimension={setEditorDimension}
           />
         </div>
         <div className="w-full">
@@ -59,6 +64,8 @@ function App() {
             workingDirectory={workingDirectory}
             filesOpenInEditor={filesOpenInEditor}
             setFilesOpenInEditor={setFilesOpenInEditor}
+            editorDimension={editorDimension}
+            setEditorDimension={setEditorDimension}
           />
         </div>
       </div>
