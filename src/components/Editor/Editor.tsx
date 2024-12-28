@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
-import { XCodeFile, XCodeFiles } from "@/types";
+import { XCodeFile, XCodeFiles, XCodeFileContent } from "@/types";
 import EditorHero from "./EditorHero";
 import ImageLoader from "./ImageLoader";
 import EditorFileTabLabel from "./EditorFileTabLabel";
 import { pathToFileType, isTextFile, isImageFile } from "@/lib/utils";
+import CodeMirror from "@uiw/react-codemirror";
+import { atomone } from "@uiw/codemirror-theme-atomone";
+import { langs } from "@uiw/codemirror-extensions-langs";
+import { EditorView } from "@uiw/react-codemirror";
 
 type EditorProps = {
   currentFile: XCodeFile;
@@ -15,6 +19,14 @@ type EditorProps = {
   setIsEditorOpen: (isOpen: boolean) => void;
   filesOpenInEditor: XCodeFile[];
   setFilesOpenInEditor: (files: XCodeFile[]) => void;
+  editorDimension: {
+    width: string;
+    height: string;
+  };
+  setEditorDimension: (editorDimension: {
+    width: string;
+    height: string;
+  }) => void;
 };
 
 export default function Editor({
@@ -26,30 +38,46 @@ export default function Editor({
   setIsEditorOpen,
   filesOpenInEditor,
   setFilesOpenInEditor,
+  editorDimension,
+  setEditorDimension,
 }: EditorProps) {
-  const [fileContent, setFileContent] = useState<string>("");
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef(null);
+  const [currentFileContent, setCurrentFileContent] = useState<string>("");
+  const [fileContents, setFileContents] = useState<XCodeFileContent[]>([]);
   const [currentFileType, setCurrentFileType] = useState<string>("");
+  const [currentFileExtension, setCurrentFileExtension] = useState<string>(
+    currentFile.path.split(".").pop()
+  );
+  const [isCurrentFileChanged, setIsCurrentFileChanged] =
+    useState<boolean>(false);
+  const [lastCurrentFile, setLastCurrentFile] =
+    useState<XCodeFile>(currentFile);
+
+  const fontSize = EditorView.baseTheme({
+    "&": {
+      fontSize: "14px",
+    },
+  });
 
   const saveFile = () => {
-    if (document.activeElement !== textAreaRef.current) return;
-    writeTextFile(currentFile.path, fileContent)
-      .then(() => {
-        console.log("File saved", fileContent);
-      })
-      .catch((err) => console.error(err));
+    // if (document.activeElement !== textAreaRef.current) return;
+    setCurrentFileContent((prev) => {
+      writeTextFile(currentFile.path, prev);
+      console.log("File saved", currentFile.path, prev);
+      return prev;
+    });
   };
 
   useEffect(() => {
     if (isEditorOpen) {
       document.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key === "s" && e.ctrlKey) {
+        if (e.ctrlKey && e.key === "s") {
           saveFile();
         }
       });
       return () => {
         document.removeEventListener("keydown", (e: KeyboardEvent) => {
-          if (e.key === "s" && e.ctrlKey) {
+          if (e.ctrlKey && e.key === "s") {
             saveFile();
           }
         });
@@ -57,18 +85,53 @@ export default function Editor({
     }
   }, [isEditorOpen]);
 
+  const editorLangExtensionSetter = (fileExtension: string) => {
+    switch (fileExtension) {
+      case "js":
+        return [fontSize, langs.javascript()];
+      case "ts":
+        return [fontSize, langs.typescript()];
+      case "jsx":
+        return [fontSize, langs.jsx()];
+      case "tsx":
+        return [fontSize, langs.tsx()];
+      case "html":
+        return [fontSize, langs.html()];
+      case "css":
+        return [fontSize, langs.css()];
+      case "json":
+        return [fontSize, langs.json()];
+      case "md":
+        return [fontSize, langs.markdown()];
+      case "py":
+        return [fontSize, langs.python()];
+      case "java":
+        return [fontSize, langs.java()];
+      case "c":
+        return [fontSize, langs.c()];
+      case "cpp":
+        return [fontSize, langs.cpp()];
+      default:
+        return [fontSize];
+    }
+  };
+
   const generateEditorContent = () => {
     if (currentFileType === "text") {
+      const langExtension = editorLangExtensionSetter(currentFileExtension);
       return (
-        <textarea
+        <CodeMirror
+          value={currentFileContent}
           ref={textAreaRef}
-          className="w-full h-full bg-primaryBg text-secondaryText px-4 font-code outline-none resize-none"
-          value={fileContent}
-          onChange={(e) => setFileContent(e.target.value)}
-          autoCorrect="off"
-          autoCapitalize="off"
-          autoComplete="off"
-          spellCheck="false"
+          onChange={(value, viewUpdate) => {
+            setCurrentFileContent(value);
+            setIsCurrentFileChanged(true);
+            // console.log("File content updated", value);
+          }}
+          height={editorDimension.height}
+          width={editorDimension.width}
+          theme={atomone}
+          extensions={langExtension}
         />
       );
     } else if (currentFileType === "image") {
@@ -92,25 +155,87 @@ export default function Editor({
       currentFile.path !== undefined &&
       currentFile.path !== null &&
       currentFile.path !== "" &&
-      currentFile.path !== fileContent &&
       currentFile.children === undefined
     ) {
-      readTextFile(currentFile.path)
-        .then((content) => {
-          setFileContent(content);
-          setCurrentFileType("text");
-        })
-        .catch((err) => {
-          console.error(err);
-          const fileType = pathToFileType(currentFile.path);
-          if (isImageFile(fileType)) {
-            setCurrentFileType("image");
-          } else {
-            setCurrentFileType("null");
-          }
+      // Checking if the file content alredy exist or not
+      let conditionFlag = true;
+      fileContents.forEach((item) => {
+        if (item.filePath == currentFile.path) {
+          conditionFlag = false;
+        }
+      });
+      console.log(fileContents);
+      if (conditionFlag) {
+        readTextFile(currentFile.path)
+          .then((content) => {
+            setCurrentFileContent(content);
+            setCurrentFileType("text");
+            setCurrentFileExtension(currentFile.path.split(".").pop());
+            setIsCurrentFileChanged(false);
+            setFileContents((prev) => {
+              const item = prev.filter(
+                (i) => i.filePath == currentFile.path
+              )[0];
+              if (item) {
+                item.content = content;
+                item.fileName = currentFile.name;
+                item.fileExtension = currentFile.path.split(".").pop();
+                item.fileType = "text";
+                item.isChanged = false;
+                item.isCurrentFile = true;
+                return prev;
+              } else {
+                return [
+                  ...prev,
+                  {
+                    content: content,
+                    fileName: currentFile.name,
+                    filePath: currentFile.path,
+                    isChanged: false,
+                    isCurrentFile: true,
+                    fileExtension: currentFile.path.split(".").pop(),
+                    fileType: "text",
+                  },
+                ];
+              }
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            const fileType = pathToFileType(currentFile.path);
+            if (isImageFile(fileType)) {
+              setCurrentFileType("image");
+            } else {
+              setCurrentFileType("null");
+            }
+          });
+      } else {
+        setFileContents((prev) => {
+          prev.forEach((item) => {
+            if (item.filePath == lastCurrentFile.path) {
+              item.content = currentFileContent;
+              item.isChanged = isCurrentFileChanged;
+              item.isCurrentFile = false;
+            }
+          });
+          return prev;
         });
+        setFileContents((prev) => {
+          prev.forEach((item) => {
+            if (item.filePath == currentFile.path) {
+              setCurrentFileContent(item.content);
+              setCurrentFileExtension(item.fileExtension);
+              setCurrentFileType(item.fileType);
+              item.isCurrentFile = true;
+            }
+          });
+          // console.log(prev);
+          return prev;
+        });
+      }
+      setLastCurrentFile(currentFile);
     }
-  }, [currentFile]);
+  }, [currentFile, filesOpenInEditor]);
 
   return (
     <div className="flex w-full h-full bg-primaryBg text-secondaryText ">
@@ -128,9 +253,22 @@ export default function Editor({
                         filesOpenInEditor.filter((f) => f.path !== file.path)
                       );
                       if (currentFile.path === file.path) {
-                        setCurrentFile(filesOpenInEditor[0]);
+                        if (filesOpenInEditor.length > 1) {
+                          setCurrentFile(filesOpenInEditor[0]);
+                        } else {
+                          setIsEditorOpen(false);
+                          setFilesOpenInEditor([]);
+                        }
                       }
                     }}
+                    isChanged={
+                      fileContents.filter((i) => i.filePath == file.path)[0] !==
+                      undefined
+                        ? fileContents.filter((i) => i.filePath == file.path)[0]
+                            .isChanged
+                        : false
+                    }
+                    isCurrent={file.path == currentFile.path}
                   />
                 </li>
               ))}
@@ -142,7 +280,7 @@ export default function Editor({
           <div className="w-full h-full">{generateEditorContent()}</div>
         </div>
       ) : (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full text-lg">
           <EditorHero />
         </div>
       )}

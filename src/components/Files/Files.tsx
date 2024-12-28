@@ -35,7 +35,7 @@ export default function Files({
 
   return (
     <div className="w-full">
-      <div className=" py-1 bg-primaryBg text-secondaryText w-full flex justify-start items-center">
+      <div className=" bg-primaryBg text-secondaryText w-full flex justify-start items-center">
         <span className="">
           <button
             onClick={() => setOpen(!open)}
@@ -47,9 +47,7 @@ export default function Files({
             ) : (
               <FaAngleRight className="text-xl" />
             )}
-            <span className="capitalize">
-              {pathToFileName(workingDirectory)}
-            </span>
+            <span className="">{pathToFileName(workingDirectory)}</span>
           </button>
         </span>
       </div>
