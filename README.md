@@ -2,46 +2,42 @@
     <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/f846bbbe-3483-48ce-8c87-c87fc3c7da10" width="250" alt="x code logo" />
     <h1>X Code</h1>
     <p>
-        A code ediror for desktop written in Tauri + TS + React. It is a simple code editor inspired by Visual Studio Code.
+       A very simple and lightweight code editor built with Tauri and React. It has a very simple and clean user interface and is very easy to use. It does not have many features but all of them are very useful, necessary and not overwhelming.
     </p>
 </div>
 
-## Technologies
+> Note: This project is still in development and is not yet ready for production use. It is still missing many features and has many bugs.
 
-- [Tauri](https://tauri.studio/)
-- [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
+## Installation 🛠️
 
-## Features
+| Platform | Download Link                                                                                                          | Version | Stable |
+| -------- | ---------------------------------------------------------------------------------------------------------------------- | ------- | ------ |
+| Windows  | [exe installer](exe/X%20Code_0.2.0_x64-setup.exe.2.0_x64-setup.exe), [msi installer](msi/X%20Code_0.2.0_x64_en-US.msi) | `0.2.0` | No     |
+| MacOS    | Comming Soon                                                                                                           |         | No     |
+| Linux    | Comming Soon                                                                                                           |         | No     |
 
-- [x] Open files
-- [x] Open Project
-- [x] Save files
-- [x] Create new files
-- [x] Create new projects
-- [x] Dark mode
+## Features 🚀
 
-## How to run
+- [x] Project Directory Explorer 📂
+- [x] Syntax Highlighting 🌈
+- [x] Multiple Language Support 🌐
+- [x] Code Autocompletion 🤖
+- [x] Dark mode 🌙
 
-1. There is a `X Code_0.0.0_x64-setup.exe` setup exe file in the the `exe` folder. You can run this file to install the app on your computer.
-2. There is a `msi\X Code_0.0.0_x64_en-US.msi` msi file in the the `msi` folder. You can run this file to install the app on your computer.
-3. You can also run the app by cloning the repository and running the following commands:
+## Purpose 🧩
 
-```bash
-# Clone the repository
-git clone
+The purpose of this project is to create a very simple and lightweight code editor that is very easy to use and does not have many features. It is meant to be used by people who want to write code without any distractions and without any unnecessary features. It is also meant to be used by people who want to write code on a computer that does not have a lot of resources.
 
-# Go to the project directory
-cd x-code
+## Goals 🎯
 
-# Install dependencies
-npm install
+- [x] Create a very simple and lightweight code editor
+- [ ] Add more essential features
+- [ ] Fix bugs
+- [ ] Make the app more user-friendly
+- [ ] Make the app more accessible
+- [ ] Make the app more performant
 
-# Run the app
-npm run tauri dev
-```
-
-## Screenshots
+## Screenshots 📸
 
 <div align="center">
     <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/cc81c422-4a79-4aa9-9760-b5eaf2934e60" width="" alt="Screenshot 1" />
@@ -50,6 +46,18 @@ npm run tauri dev
 
 </div>
 
-## Support the project
+## License 📜
 
-If you like this project, please consider supporting it by starring ⭐ the repository. Thank you!
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Reporting Issues 🐛
+
+If you find any issues with the project, please open an issue on [GitHub Issues](https://github.com/iamBijoyKar/x-code/issues) and I will try to fix it as soon as possible.
+
+## Feedback 📢
+
+If you have any feedback or suggestions for the project, please let me know 🙏.
+
+## Support the project 🌟
+
+If you like this project, please consider supporting it by starring ⭐ the repository. And spread the word about this project to your friends and colleagues. Thank you!
