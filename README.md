@@ -44,14 +44,11 @@ The purpose of this project is to create a very simple and lightweight code edit
 - [ ] Make the app more accessible
 - [ ] Make the app more performant
 
-## Screenshots 📸
+# X Code 🧑‍💻
 
-<div align="center">
-    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/cc81c422-4a79-4aa9-9760-b5eaf2934e60" width="" alt="Screenshot 1" />
-    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/fd81b3c8-937c-473a-96e4-b26fdf0d7ab4" width="" alt="Screenshot 1" />
-    <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/93ee4b92-29ba-46cd-acaa-33f5e34791a1" width="" alt="Screenshot 1" />
 
-</div>
+https://github.com/user-attachments/assets/862fa151-cbdd-46fd-a18d-8b9c324f34f4
+
 
 ## License 📜
 
