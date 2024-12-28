@@ -1,4 +1,11 @@
 <div align="center">
+    
+![X-code banner](https://github.com/user-attachments/assets/e4f9ff29-f327-46d1-8840-d55d4f4ce66c)
+    
+<p><b><i>Code faster and lighter without any distraction, use X Code!</i></b></p>
+</div>
+<br/>
+<div align="center">
     <img src="https://github.com/iamBijoyKar/x-code/assets/85790967/f846bbbe-3483-48ce-8c87-c87fc3c7da10" width="250" alt="x code logo" />
     <h1>X Code</h1>
     <p>
