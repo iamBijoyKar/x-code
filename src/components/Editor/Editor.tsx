@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
-import { XCodeFile, XCodeFiles } from "@/types";
+import { XCodeFile, XCodeFiles, XCodeFileContent } from "@/types";
 import EditorHero from "./EditorHero";
 import ImageLoader from "./ImageLoader";
 import EditorFileTabLabel from "./EditorFileTabLabel";
@@ -30,16 +30,21 @@ export default function Editor({
   filesOpenInEditor,
   setFilesOpenInEditor,
 }: EditorProps) {
-  const [fileContent, setFileContent] = useState<string>("");
   const textAreaRef = useRef(null);
+  const [currentFileContent, setCurrentFileContent] = useState<string>("");
+  const [fileContents, setFileContents] = useState<XCodeFileContent[]>([]);
   const [currentFileType, setCurrentFileType] = useState<string>("");
   const [currentFileExtension, setCurrentFileExtension] = useState<string>(
     currentFile.path.split(".").pop()
   );
+  const [isCurrentFileChanged, setIsCurrentFileChanged] =
+    useState<boolean>(false);
+  const [lastCurrentFile, setLastCurrentFile] =
+    useState<XCodeFile>(currentFile);
 
   const saveFile = () => {
     // if (document.activeElement !== textAreaRef.current) return;
-    setFileContent((prev) => {
+    setCurrentFileContent((prev) => {
       writeTextFile(currentFile.path, prev);
       console.log("File saved", currentFile.path, prev);
       return prev;
@@ -99,10 +104,11 @@ export default function Editor({
       const langExtension = editorLangExtensionSetter(currentFileExtension);
       return (
         <CodeMirror
-          value={fileContent}
+          value={currentFileContent}
           ref={textAreaRef}
           onChange={(value, viewUpdate) => {
-            setFileContent(value);
+            setCurrentFileContent(value);
+            setIsCurrentFileChanged(true);
             // console.log("File content updated", value);
           }}
           height="600px"
@@ -131,24 +137,84 @@ export default function Editor({
       currentFile.path !== undefined &&
       currentFile.path !== null &&
       currentFile.path !== "" &&
-      currentFile.path !== fileContent &&
       currentFile.children === undefined
     ) {
-      readTextFile(currentFile.path)
-        .then((content) => {
-          setFileContent(content);
-          setCurrentFileType("text");
-          setCurrentFileExtension(currentFile.path.split(".").pop());
-        })
-        .catch((err) => {
-          console.error(err);
-          const fileType = pathToFileType(currentFile.path);
-          if (isImageFile(fileType)) {
-            setCurrentFileType("image");
-          } else {
-            setCurrentFileType("null");
-          }
+      // Checking if the file content alredy exist or not
+      let conditionFlag = true;
+      fileContents.forEach((item) => {
+        if (item.filePath == currentFile.path) {
+          conditionFlag = false;
+        }
+      });
+      console.log(fileContents);
+      if (conditionFlag) {
+        readTextFile(currentFile.path)
+          .then((content) => {
+            setCurrentFileContent(content);
+            setCurrentFileType("text");
+            setCurrentFileExtension(currentFile.path.split(".").pop());
+            setIsCurrentFileChanged(false);
+            setFileContents((prev) => {
+              const item = prev.filter(
+                (i) => i.filePath == currentFile.path
+              )[0];
+              if (item) {
+                item.content = content;
+                item.fileName = currentFile.name;
+                item.fileExtension = currentFile.path.split(".").pop();
+                item.fileType = "text";
+                item.isChanged = false;
+                item.isCurrentFile = true;
+                return prev;
+              } else {
+                return [
+                  ...prev,
+                  {
+                    content: content,
+                    fileName: currentFile.name,
+                    filePath: currentFile.path,
+                    isChanged: false,
+                    isCurrentFile: true,
+                    fileExtension: currentFile.path.split(".").pop(),
+                    fileType: "text",
+                  },
+                ];
+              }
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            const fileType = pathToFileType(currentFile.path);
+            if (isImageFile(fileType)) {
+              setCurrentFileType("image");
+            } else {
+              setCurrentFileType("null");
+            }
+          });
+      } else {
+        setFileContents((prev) => {
+          prev.forEach((item) => {
+            if (item.filePath == lastCurrentFile.path) {
+              item.content = currentFileContent;
+              item.isChanged = isCurrentFileChanged;
+              item.isCurrentFile = false;
+            }
+          });
+          return prev;
         });
+        setFileContents((prev) => {
+          prev.forEach((item) => {
+            if (item.filePath == currentFile.path) {
+              setCurrentFileContent(item.content);
+              setCurrentFileExtension(item.fileExtension);
+              setCurrentFileType(item.fileType);
+            }
+          });
+          console.log(prev);
+          return prev;
+        });
+      }
+      setLastCurrentFile(currentFile);
     }
   }, [currentFile]);
 
