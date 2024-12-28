@@ -208,15 +208,16 @@ export default function Editor({
               setCurrentFileContent(item.content);
               setCurrentFileExtension(item.fileExtension);
               setCurrentFileType(item.fileType);
+              item.isCurrentFile = true;
             }
           });
-          console.log(prev);
+          // console.log(prev);
           return prev;
         });
       }
       setLastCurrentFile(currentFile);
     }
-  }, [currentFile]);
+  }, [currentFile, filesOpenInEditor]);
 
   return (
     <div className="flex w-full h-full bg-primaryBg text-secondaryText ">
@@ -242,6 +243,14 @@ export default function Editor({
                         }
                       }
                     }}
+                    isChanged={
+                      fileContents.filter((i) => i.filePath == file.path)[0] !==
+                      undefined
+                        ? fileContents.filter((i) => i.filePath == file.path)[0]
+                            .isChanged
+                        : false
+                    }
+                    isCurrent={file.path == currentFile.path}
                   />
                 </li>
               ))}
