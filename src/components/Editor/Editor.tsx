@@ -8,6 +8,7 @@ import { pathToFileType, isTextFile, isImageFile } from "@/lib/utils";
 import CodeMirror from "@uiw/react-codemirror";
 import { atomone } from "@uiw/codemirror-theme-atomone";
 import { langs } from "@uiw/codemirror-extensions-langs";
+import { EditorView } from "@uiw/react-codemirror";
 
 type EditorProps = {
   currentFile: XCodeFile;
@@ -52,6 +53,12 @@ export default function Editor({
   const [lastCurrentFile, setLastCurrentFile] =
     useState<XCodeFile>(currentFile);
 
+  const fontSize = EditorView.baseTheme({
+    "&": {
+      fontSize: "14px",
+    },
+  });
+
   const saveFile = () => {
     // if (document.activeElement !== textAreaRef.current) return;
     setCurrentFileContent((prev) => {
@@ -81,31 +88,31 @@ export default function Editor({
   const editorLangExtensionSetter = (fileExtension: string) => {
     switch (fileExtension) {
       case "js":
-        return [langs.javascript()];
+        return [fontSize, langs.javascript()];
       case "ts":
-        return [langs.typescript()];
+        return [fontSize, langs.typescript()];
       case "jsx":
-        return [langs.jsx()];
+        return [fontSize, langs.jsx()];
       case "tsx":
-        return [langs.tsx()];
+        return [fontSize, langs.tsx()];
       case "html":
-        return [langs.html()];
+        return [fontSize, langs.html()];
       case "css":
-        return [langs.css()];
+        return [fontSize, langs.css()];
       case "json":
-        return [langs.json()];
+        return [fontSize, langs.json()];
       case "md":
-        return [langs.markdown()];
+        return [fontSize, langs.markdown()];
       case "py":
-        return [langs.python()];
+        return [fontSize, langs.python()];
       case "java":
-        return [langs.java()];
+        return [fontSize, langs.java()];
       case "c":
-        return [langs.c()];
+        return [fontSize, langs.c()];
       case "cpp":
-        return [langs.cpp()];
+        return [fontSize, langs.cpp()];
       default:
-        return [];
+        return [fontSize];
     }
   };
 
@@ -273,7 +280,7 @@ export default function Editor({
           <div className="w-full h-full">{generateEditorContent()}</div>
         </div>
       ) : (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full text-lg">
           <EditorHero />
         </div>
       )}
