@@ -3,6 +3,10 @@
 ![X-code banner](https://github.com/user-attachments/assets/e4f9ff29-f327-46d1-8840-d55d4f4ce66c)
     
 <p><b><i>Code faster and lighter without any distraction, use X Code!</i></b></p>
+
+![GitHub License](https://img.shields.io/github/license/iamBijoyKar/x-code?style=for-the-badge&logo=googledocs&logoColor=white)
+![GitHub file size in bytes](https://img.shields.io/github/size/iamBijoyKar/x-code/exe%2FX%20Code_0.2.0_x64-setup.exe?style=for-the-badge&label=Executable%20Size)
+
 </div>
 <br/>
 <div align="center">
@@ -46,9 +50,7 @@ The purpose of this project is to create a very simple and lightweight code edit
 
 # X Code 🧑‍💻
 
-
 https://github.com/user-attachments/assets/862fa151-cbdd-46fd-a18d-8b9c324f34f4
-
 
 ## License 📜
 
